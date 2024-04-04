@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { getCars, postCar } from "../helper/carsdata";
+import { getCars } from "../helper/carsdata";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import Createcar from "../createcar/Createcar";
+import { faCarSide } from "@fortawesome/free-solid-svg-icons";
 
 interface Car {
   name: string;
@@ -9,36 +13,35 @@ interface Car {
 
 const Cars: React.FC = () => {
   const [carlist, setCarlist] = useState<Car[]>([]);
+
+  const fetchCars = async () => {
+    try {
+      const cars = await getCars(1, 10);
+      console.log(cars);
+      setCarlist(cars);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    const fetchCars = async () => {
-      try {
-        const cars = await getCars(1, 10);
-        console.log(cars);
-        setCarlist(cars);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     fetchCars();
   }, []);
-  const handlePostCar = async () => {
-    try {
-      const car = await postCar({
-        name: "you know it",
-        color: "red",
-      });
-      console.log("New car created:", car);
-    } catch (error) {
-      console.error("Error creating car:", error);
-    }
+
+  const handleCarAdded = async () => {
+    await fetchCars();
   };
 
   return (
     <>
-      <button onClick={handlePostCar}> add car</button>
+      <Createcar onCarAdded={handleCarAdded} />
       <h1> cars</h1>
       {carlist.map((car) => {
-        return <div key={car.id}> {car.name}</div>;
+        return (
+          <div key={car.id}>
+            <FontAwesomeIcon icon={faCarSide} color={car.color} />
+            <span> {car.name}</span>
+          </div>
+        );
       })}
     </>
   );
