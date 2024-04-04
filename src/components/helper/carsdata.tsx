@@ -17,3 +17,18 @@ export const getCars = async (page?: number, limit?: number) => {
     throw error;
   }
 };
+
+export const postCar = async (carData: { name: string; color: string }) => {
+  try {
+    const response: AxiosResponse<Car> = await axios.post("/garage", carData, {
+      baseURL: "http://127.0.0.1:3000",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

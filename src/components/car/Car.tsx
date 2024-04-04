@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getCars } from "../helper/carsdata";
+import { getCars, postCar } from "../helper/carsdata";
 
 interface Car {
   name: string;
@@ -21,8 +21,21 @@ const Cars: React.FC = () => {
     };
     fetchCars();
   }, []);
+  const handlePostCar = async () => {
+    try {
+      const car = await postCar({
+        name: "you know it",
+        color: "red",
+      });
+      console.log("New car created:", car);
+    } catch (error) {
+      console.error("Error creating car:", error);
+    }
+  };
+
   return (
     <>
+      <button onClick={handlePostCar}> add car</button>
       <h1> cars</h1>
       {carlist.map((car) => {
         return <div key={car.id}> {car.name}</div>;
