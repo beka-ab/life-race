@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getCars } from "../helper/carsdata";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import "./car.css";
 import Createcar from "../createcar/Createcar";
 import { faCarSide } from "@fortawesome/free-solid-svg-icons";
 
@@ -38,7 +38,11 @@ const Cars: React.FC = () => {
       {carlist.map((car) => {
         return (
           <div key={car.id}>
-            <FontAwesomeIcon icon={faCarSide} color={car.color} />
+            <FontAwesomeIcon
+              icon={faCarSide}
+              color={car.color}
+              className="car-icon"
+            />
             <span> {car.name}</span>
           </div>
         );

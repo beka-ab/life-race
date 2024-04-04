@@ -1,7 +1,26 @@
 .colorpallete {
-  width: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+.createcar-form {
+  display: flex;
+  align-items: center;
+}
+.color-picker {
+  width: 10px;
+  height: 10px;
+  cursor: pointer;
+}
+.colorpallete-picker {
+  display: flex;
+}
+.close-picker {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
