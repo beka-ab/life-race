@@ -32,8 +32,9 @@ const Cars: React.FC = () => {
   };
 
   return (
-    <>
+    <div className="car-container">
       <Createcar onCarAdded={handleCarAdded} />
+
       <h1> cars</h1>
       {carlist.map((car) => {
         return (
@@ -47,7 +48,7 @@ const Cars: React.FC = () => {
           </div>
         );
       })}
-    </>
+    </div>
   );
 };
 

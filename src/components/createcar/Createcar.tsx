@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { postCar } from "../helper/carsdata";
-import { ChromePicker } from "react-color";
+import Input from "../input/Input";
 
 import "./createcar.css";
 
@@ -27,44 +27,15 @@ const Createcar: React.FC<CreateCarProps> = ({ onCarAdded }) => {
   };
 
   return (
-    <>
-      <div className="createcar-form">
-        <input
-          type="text"
-          placeholder="enter model name here ..."
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <div className="colorpallete">
-          {pick ? (
-            <div className="colorpallete-picker">
-              <ChromePicker
-                color={color}
-                onChange={(newColor) => setColor(newColor.hex)}
-              />
-              <button
-                className="close-picker"
-                style={{ color: color }}
-                onClick={() => setPick(false)}
-              >
-                X
-              </button>
-            </div>
-          ) : (
-            <div
-              className="color-picker"
-              style={{ backgroundColor: color }}
-              onClick={() => {
-                setPick(true);
-                console.log(pick);
-              }}
-            ></div>
-          )}
-        </div>
-      </div>
-
-      <button onClick={handlePostCar}> Create Car</button>
-    </>
+    <Input
+      color={color}
+      name={name}
+      setName={setName}
+      pick={pick}
+      setColor={setColor}
+      setPick={setPick}
+      handlePostCar={handlePostCar}
+    />
   );
 };
 

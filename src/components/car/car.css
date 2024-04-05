@@ -1,3 +1,5 @@
 .car-icon {
-  transform: translateX(10px);
+}
+.car-container {
+  margin-top: 5vh;
 }

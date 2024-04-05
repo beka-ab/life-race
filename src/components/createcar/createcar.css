@@ -7,6 +7,7 @@
 .createcar-form {
   display: flex;
   align-items: center;
+  column-gap: 1vw;
 }
 .color-picker {
   width: 10px;
@@ -14,7 +15,11 @@
   cursor: pointer;
 }
 .colorpallete-picker {
+  position: absolute;
+  width: 25vw;
+  height: 21vh;
   display: flex;
+  top: 175px;
 }
 .close-picker {
   width: 20px;
@@ -23,4 +28,12 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+}
+.createcar-container {
+  display: flex;
+  column-gap: 1vw;
+}
+.carname-input {
+  border: none;
+  padding: 5px;
 }
