@@ -1,33 +1,31 @@
-import { useState } from "react";
-import { postCar } from "../helper/carsdata";
 import Input from "../input/Input";
-
-import "./createcar.css";
-
-interface CreateCarProps {
+import { useState } from "react";
+import { updateCar } from "../helper/carsdata";
+interface updatecarProps {
+  selectedcar: number | null;
   onCarAdded: () => void;
 }
 
-const Createcar: React.FC<CreateCarProps> = ({ onCarAdded }) => {
+const Updatecar: React.FC<updatecarProps> = ({ selectedcar, onCarAdded }) => {
   const [name, setName] = useState("");
   const [pick, setPick] = useState(false);
   const [color, setColor] = useState("#00FF00");
 
   const handlePostCar = async () => {
     try {
-      const car = await postCar({
+      const updatedCar = await updateCar(selectedcar, {
         name: name,
         color: color,
       });
-      console.log("New car created:", car);
+      console.log("New car created:", updatedCar);
       onCarAdded();
     } catch (error) {
       console.error("Error creating car:", error);
     }
   };
-
   return (
     <Input
+      id={selectedcar}
       color={color}
       name={name}
       setName={setName}
@@ -39,4 +37,4 @@ const Createcar: React.FC<CreateCarProps> = ({ onCarAdded }) => {
   );
 };
 
-export default Createcar;
+export default Updatecar;

@@ -8,6 +8,7 @@ interface InputProps {
   setColor: (color: string) => void;
   setPick: (pick: boolean) => void;
   handlePostCar: () => void;
+  id?: null | number;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -18,6 +19,7 @@ const Input: React.FC<InputProps> = ({
   setColor,
   setPick,
   handlePostCar,
+  id,
 }) => {
   return (
     <div className="createcar-container">

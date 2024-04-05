@@ -32,3 +32,25 @@ export const postCar = async (carData: { name: string; color: string }) => {
     throw error;
   }
 };
+
+export const updateCar = async (
+  id: number | null,
+  carData: { name: string; color: string }
+): Promise<Car> => {
+  try {
+    const response: AxiosResponse<Car> = await axios.put(
+      `/garage/${id}`,
+      carData,
+      {
+        baseURL: "http://127.0.0.1:3000",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
