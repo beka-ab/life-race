@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getCars } from "../helper/carsdata";
+import { getCars, removeCar } from "../helper/carsdata";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./car.css";
 import Createcar from "../createcar/Createcar";
@@ -33,6 +33,15 @@ const Cars: React.FC = () => {
     await fetchCars();
   };
 
+  const handleRemove = async (carId: number) => {
+    try {
+      await removeCar(carId);
+      await fetchCars();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="car-container">
       <Createcar onCarAdded={handleCarAdded} />
@@ -42,7 +51,6 @@ const Cars: React.FC = () => {
       {carlist.map((car) => {
         return (
           <div className="car-wrapper" key={car.id}>
-            <span> {car.name}</span>
             <div className="car-btns">
               <button
                 onClick={() => {
@@ -52,13 +60,23 @@ const Cars: React.FC = () => {
               >
                 Select
               </button>
-              <button>Remove</button>
+              <button
+                onClick={() => {
+                  handleRemove(car.id);
+                }}
+              >
+                Remove
+              </button>
             </div>
             <FontAwesomeIcon
               icon={faCarSide}
               color={car.color}
               className="car-icon"
             />
+            <div className="start-line">
+              <span className="start-text">start ////</span>
+            </div>
+            <span> {car.name}</span>
           </div>
         );
       })}

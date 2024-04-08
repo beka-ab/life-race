@@ -1,4 +1,7 @@
 .car-icon {
+  width: 50px;
+  height: 50px;
+  border-right: 1px solid white;
 }
 .car-container {
   margin-top: 5vh;
@@ -11,4 +14,14 @@
 }
 .car-wrapper {
   display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.start-line {
+  border-right: 1px solid white;
+  height: 50px;
+}
+.start-text {
+  display: inline-block;
+  transform: rotate(90deg);
 }

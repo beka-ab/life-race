@@ -54,3 +54,13 @@ export const updateCar = async (
     throw error;
   }
 };
+export const removeCar = async (id: number | null): Promise<Car> => {
+  try {
+    const response: AxiosResponse<Car> = await axios.delete(`/garage/${id}`, {
+      baseURL: "http://127.0.0.1:3000",
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
