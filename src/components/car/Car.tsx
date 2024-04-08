@@ -18,7 +18,7 @@ const Cars: React.FC = () => {
 
   const fetchCars = async () => {
     try {
-      const cars = await getCars(1, 10);
+      const cars = await getCars(1, 11);
       console.log(cars);
       setCarlist(cars);
     } catch (error) {

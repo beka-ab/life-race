@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { postCar } from "../helper/carsdata";
 import Input from "../input/Input";
+import CreateHundredCar from "./CreateHundredCar";
 
 import "./createcar.css";
 
@@ -9,7 +10,7 @@ interface CreateCarProps {
 }
 
 const Createcar: React.FC<CreateCarProps> = ({ onCarAdded }) => {
-  const [name, setName] = useState("");
+  const [name, setName] = useState(``);
   const [pick, setPick] = useState(false);
   const [color, setColor] = useState("#00FF00");
 
@@ -27,15 +28,18 @@ const Createcar: React.FC<CreateCarProps> = ({ onCarAdded }) => {
   };
 
   return (
-    <Input
-      color={color}
-      name={name}
-      setName={setName}
-      pick={pick}
-      setColor={setColor}
-      setPick={setPick}
-      handlePostCar={handlePostCar}
-    />
+    <>
+      <Input
+        color={color}
+        name={name}
+        setName={setName}
+        pick={pick}
+        setColor={setColor}
+        setPick={setPick}
+        handlePostCar={handlePostCar}
+      />
+      <CreateHundredCar createcar={handlePostCar} />
+    </>
   );
 };
 
