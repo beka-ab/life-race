@@ -3,7 +3,6 @@ interface CreateHundredCarProps {
 }
 
 const CreateHundredCar: React.FC<CreateHundredCarProps> = ({ createcar }) => {
-  console.log("genetare clicked");
   const GenerateHundred = () => {
     for (let i = 0; i < 100; i++) {
       createcar();

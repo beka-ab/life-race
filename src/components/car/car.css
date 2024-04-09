@@ -16,6 +16,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  margin-top: 15px;
 }
 .start-line {
   border-right: 1px solid white;
@@ -24,4 +25,7 @@
 .start-text {
   display: inline-block;
   transform: rotate(90deg);
+}
+.car-icon-container {
+  position: absolute;
 }

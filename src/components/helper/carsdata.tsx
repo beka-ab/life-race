@@ -6,6 +6,11 @@ interface Car {
   id: number;
 }
 
+export interface EngineResponse {
+  velocity: number;
+  distance: number;
+}
+
 export const getCars = async (page?: number, limit?: number) => {
   try {
     const response: AxiosResponse<Car[]> = await axios.get("/garage", {
@@ -59,6 +64,25 @@ export const removeCar = async (id: number | null): Promise<Car> => {
     const response: AxiosResponse<Car> = await axios.delete(`/garage/${id}`, {
       baseURL: "http://127.0.0.1:3000",
     });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const startStopEngine = async (
+  id: number,
+  status: "started" | "stopped"
+): Promise<EngineResponse> => {
+  try {
+    const response: AxiosResponse<EngineResponse> = await axios.patch(
+      "/engine",
+      null,
+      {
+        baseURL: "http://127.0.0.1:3000",
+        params: { id, status },
+      }
+    );
     return response.data;
   } catch (error) {
     throw error;
