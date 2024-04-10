@@ -17,6 +17,7 @@ const Cars: React.FC = () => {
   const [carlist, setCarlist] = useState<Car[]>([]);
   const [selectedcar, setSelectedCar] = useState<null | number>(null);
   const carIconRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
+  const [isRaceStarted, setIsRaceStarted] = useState(false);
   const getCarIconElement = (carId: number): HTMLDivElement | null => {
     return carIconRefs.current[carId];
   };
@@ -75,11 +76,21 @@ const Cars: React.FC = () => {
       }
     }
   };
-
+  const handleStartRace = async () => {
+    setIsRaceStarted(true);
+    const startPromises = carlist.map(async (car) => {
+      const carIcon = carIconRefs.current[car.id];
+      if (carIcon) {
+        return handleStartEngine(car.id, carIcon);
+      }
+    });
+    await Promise.all(startPromises);
+  };
   return (
     <div className="car-container">
       <Createcar onCarAdded={handleCarAdded} />
       <Updatecar selectedcar={selectedcar} onCarAdded={handleCarAdded} />
+      <button onClick={handleStartRace}> start race</button>
 
       <h1> cars</h1>
       {carlist.map((car) => {
