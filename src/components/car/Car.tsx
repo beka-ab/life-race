@@ -5,7 +5,6 @@ import "./car.css";
 import Createcar from "../createcar/Createcar";
 import { faCarSide } from "@fortawesome/free-solid-svg-icons";
 import Updatecar from "../updatecar/Updatecar";
-import { EngineResponse } from "../helper/carsdata";
 
 interface Car {
   name: string;
@@ -16,9 +15,10 @@ interface Car {
 const Cars: React.FC = () => {
   const [carlist, setCarlist] = useState<Car[]>([]);
   const [selectedcar, setSelectedCar] = useState<null | number>(null);
-  const [engineData, setEngineData] = useState<EngineResponse | null>(null);
-  const [carPosition, setCarPosition] = useState(80);
-  const carIconRef = useRef<HTMLDivElement>(null);
+  const carIconRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
+  const getCarIconElement = (carId: number): HTMLDivElement | null => {
+    return carIconRefs.current[carId];
+  };
 
   const fetchCars = async () => {
     try {
@@ -42,40 +42,36 @@ const Cars: React.FC = () => {
     } catch (error) {}
   };
 
-  const handleStartEngine = async (carId: number) => {
-    if (carId) {
+  const handleStartEngine = async (
+    carId: number,
+    carIcon: HTMLDivElement | null
+  ) => {
+    if (carId && carIcon) {
       try {
         const response = await startStopEngine(carId, "started");
 
-        setEngineData(response);
+        console.log(carId);
+        const animationDuration = response.distance / response.velocity / 1000;
+        carIcon.style.transition = `left ${animationDuration}s ease-in-out`;
+        carIcon.style.left = `${response.distance / 1000}px`;
       } catch (error) {
         console.error("Error starting engine:", error);
       }
     }
   };
 
-  const handleStopEngine = async () => {
+  const handleStopEngine = async (
+    carId: number,
+    carIcon: HTMLDivElement | null
+  ) => {
     if (selectedcar) {
       try {
-        const response = await startStopEngine(selectedcar, "stopped");
+        const response = await startStopEngine(carId, "stopped");
       } catch (error) {
         console.error("Error stopping engine:", error);
       }
     }
   };
-
-  useEffect(() => {
-    if (engineData) {
-      const animationDuration =
-        engineData.distance / engineData.velocity / 1000;
-      const carIcon = carIconRef.current;
-      if (carIcon) {
-        carIcon.style.transition = `left ${animationDuration}s ease-in-out`;
-        console.log(animationDuration);
-        carIcon.style.left = `${engineData.distance / 1000}px`;
-      }
-    }
-  }, [engineData]);
 
   return (
     <div className="car-container">
@@ -103,17 +99,25 @@ const Cars: React.FC = () => {
               </button>
               <button
                 onClick={() => {
-                  handleStartEngine(car.id);
+                  const carIcon = getCarIconElement(car.id);
+                  handleStartEngine(car.id, carIcon);
                 }}
               >
                 Start Engine
               </button>
-              <button onClick={handleStopEngine}>Stop Engine</button>
+              <button
+                onClick={() => {
+                  const carIcon = getCarIconElement(car.id);
+                  handleStopEngine(car.id, carIcon);
+                }}
+              >
+                Stop Engine
+              </button>
             </div>
             <div
-              className="car-icon-container"
-              ref={carIconRef}
-              style={{ left: `${carPosition}px` }}
+              className={`car-icon-container ${car.id}  `}
+              ref={(element) => (carIconRefs.current[car.id] = element)}
+              style={{ left: `80px` }}
             >
               <FontAwesomeIcon
                 icon={faCarSide}
