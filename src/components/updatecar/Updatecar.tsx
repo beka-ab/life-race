@@ -33,6 +33,7 @@ const Updatecar: React.FC<updatecarProps> = ({ selectedcar, onCarAdded }) => {
       setColor={setColor}
       setPick={setPick}
       handlePostCar={handlePostCar}
+      btnname="update car"
     />
   );
 };

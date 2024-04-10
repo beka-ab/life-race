@@ -9,6 +9,7 @@ interface InputProps {
   setPick: (pick: boolean) => void;
   handlePostCar: () => void;
   id?: null | number;
+  btnname: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -20,6 +21,7 @@ const Input: React.FC<InputProps> = ({
   setPick,
   handlePostCar,
   id,
+  btnname,
 }) => {
   return (
     <div className="createcar-container">
@@ -60,7 +62,7 @@ const Input: React.FC<InputProps> = ({
         </div>
       </div>
 
-      <button onClick={handlePostCar}> Create Car</button>
+      <button onClick={handlePostCar}> {btnname}</button>
     </div>
   );
 };

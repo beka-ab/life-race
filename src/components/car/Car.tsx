@@ -5,7 +5,8 @@ import "./car.css";
 import Createcar from "../createcar/Createcar";
 import { faCarSide } from "@fortawesome/free-solid-svg-icons";
 import Updatecar from "../updatecar/Updatecar";
-
+import ControlCar from "../controlcars/ControlCar";
+import EditOrRemoveCar from "../deletecar/EditOrRemoveCar";
 interface Car {
   name: string;
   color: string;
@@ -85,36 +86,28 @@ const Cars: React.FC = () => {
         return (
           <div className="car-wrapper" key={car.id}>
             <div className="car-btns">
-              <button
-                onClick={() => {
-                  setSelectedCar(car.id);
-                }}
-              >
-                Select
-              </button>
-              <button
-                onClick={() => {
-                  handleRemove(car.id);
-                }}
-              >
-                Remove
-              </button>
-              <button
-                onClick={() => {
-                  const carIcon = getCarIconElement(car.id);
-                  handleStartEngine(car.id, carIcon);
-                }}
-              >
-                Start Engine
-              </button>
-              <button
-                onClick={() => {
-                  const carIcon = getCarIconElement(car.id);
-                  handleStopEngine(car.id, carIcon);
-                }}
-              >
-                Stop Engine
-              </button>
+              <EditOrRemoveCar
+                handleRemove={setSelectedCar}
+                carID={car.id}
+                btnname="select car"
+              />
+              <EditOrRemoveCar
+                handleRemove={handleRemove}
+                carID={car.id}
+                btnname="Remove car"
+              />
+              <ControlCar
+                getCarIconElement={getCarIconElement}
+                handleControlEngine={handleStartEngine}
+                carID={car.id}
+                btnname="start engine"
+              />
+              <ControlCar
+                getCarIconElement={getCarIconElement}
+                handleControlEngine={handleStopEngine}
+                carID={car.id}
+                btnname="stop engine"
+              />
             </div>
             <div
               className={`car-icon-container ${car.id}  `}

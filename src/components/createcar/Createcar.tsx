@@ -37,6 +37,7 @@ const Createcar: React.FC<CreateCarProps> = ({ onCarAdded }) => {
         setColor={setColor}
         setPick={setPick}
         handlePostCar={handlePostCar}
+        btnname="create car"
       />
       <CreateHundredCar createcar={handlePostCar} />
     </>
