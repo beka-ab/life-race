@@ -64,9 +64,11 @@ const Cars: React.FC = () => {
     carId: number,
     carIcon: HTMLDivElement | null
   ) => {
-    if (selectedcar) {
+    if (carId && carIcon) {
       try {
         const response = await startStopEngine(carId, "stopped");
+        carIcon.style.left = `${response.distance / 6250}px`;
+        console.log(response);
       } catch (error) {
         console.error("Error stopping engine:", error);
       }
