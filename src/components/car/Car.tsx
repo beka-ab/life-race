@@ -22,7 +22,7 @@ const Cars: React.FC = () => {
   const getCarIconElement = (carId: number): HTMLDivElement | null => {
     return carIconRefs.current[carId];
   };
-  const [currentPage, setCurrentpage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [carPerPage, setCarPerpage] = useState(10);
 
   const fetchCars = async () => {
@@ -93,7 +93,10 @@ const Cars: React.FC = () => {
   const indexOfLastCar = currentPage * carPerPage;
   const indexOfFirstCar = indexOfLastCar - carPerPage;
   const currentCars = carlist.slice(indexOfFirstCar, indexOfLastCar);
-
+  const paginate = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    console.log(currentCars);
+  };
   return (
     <div className="car-container">
       <Createcar onCarAdded={handleCarAdded} />
@@ -146,7 +149,11 @@ const Cars: React.FC = () => {
           </div>
         );
       })}
-      <Pagination carPerPage={carPerPage} totalCars={carlist.length} />
+      <Pagination
+        carPerPage={carPerPage}
+        totalCars={carlist.length}
+        paginate={paginate}
+      />
     </div>
   );
 };
