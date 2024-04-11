@@ -27,9 +27,10 @@ const Cars: React.FC = () => {
 
   const fetchCars = async () => {
     try {
-      const cars = await getCars(1, 100);
-
+      const cars = await getCars();
+      console.log(carlist);
       setCarlist(cars);
+      console.log(cars.length);
     } catch (error) {}
   };
   useEffect(() => {
@@ -97,6 +98,7 @@ const Cars: React.FC = () => {
     setCurrentPage(pageNumber);
     console.log(currentCars);
   };
+  console.log(carlist.length);
   return (
     <div className="car-container">
       <Createcar onCarAdded={handleCarAdded} />
