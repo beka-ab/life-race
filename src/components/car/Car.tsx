@@ -7,6 +7,7 @@ import { faCarSide } from "@fortawesome/free-solid-svg-icons";
 import Updatecar from "../updatecar/Updatecar";
 import ControlCar from "../controlcars/ControlCar";
 import EditOrRemoveCar from "../deletecar/EditOrRemoveCar";
+import Pagination from "../pagination";
 interface Car {
   name: string;
   color: string;
@@ -21,10 +22,12 @@ const Cars: React.FC = () => {
   const getCarIconElement = (carId: number): HTMLDivElement | null => {
     return carIconRefs.current[carId];
   };
+  const [currentPage, setCurrentpage] = useState(1);
+  const [carPerPage, setCarPerpage] = useState(10);
 
   const fetchCars = async () => {
     try {
-      const cars = await getCars(1, 11);
+      const cars = await getCars(1, 100);
 
       setCarlist(cars);
     } catch (error) {}
@@ -86,6 +89,11 @@ const Cars: React.FC = () => {
     });
     await Promise.all(startPromises);
   };
+
+  const indexOfLastCar = currentPage * carPerPage;
+  const indexOfFirstCar = indexOfLastCar - carPerPage;
+  const currentCars = carlist.slice(indexOfFirstCar, indexOfLastCar);
+
   return (
     <div className="car-container">
       <Createcar onCarAdded={handleCarAdded} />
@@ -93,7 +101,7 @@ const Cars: React.FC = () => {
       <button onClick={handleStartRace}> start race</button>
 
       <h1> cars</h1>
-      {carlist.map((car) => {
+      {currentCars.map((car) => {
         return (
           <div className="car-wrapper" key={car.id}>
             <div className="car-btns">
@@ -138,6 +146,7 @@ const Cars: React.FC = () => {
           </div>
         );
       })}
+      <Pagination carPerPage={carPerPage} totalCars={carlist.length} />
     </div>
   );
 };
