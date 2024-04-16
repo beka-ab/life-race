@@ -1,5 +1,11 @@
 import axios, { AxiosResponse } from "axios";
 
+const baseURL = "http://127.0.0.1:3000";
+
+const garageURL = `${baseURL}/garage`;
+const winnersURL = `${baseURL}/winners`;
+const engineURL = `${baseURL}/engine`;
+
 interface Car {
   name: string;
   color: string;
@@ -101,28 +107,37 @@ export const startStopEngine = async (
   }
 };
 
-const baseURL = "http://127.0.0.1:3000";
-const motorEndpoint = "/motor";
-
-export const motorDrive = async (id: number) => {
+///////
+export const switchToDriveMode = async (carId: number) => {
   try {
-    const response = await axios.patch(
-      `${baseURL}${motorEndpoint}?id=${id}&status=drive`
-    );
-    return response.status !== 200 ? { success: false } : { ...response.data };
+    const response = await axios.patch(`${engineURL}?id=${carId}&status=drive`);
+
+    if (response.status === 200) {
+    } else {
+      console.error("Failed to switch engine to drive mode:", response.data);
+    }
   } catch (error) {
-    console.error("Error in motorDrive:", error);
-    return { success: false };
+    console.error("Error switching engine to drive mode:", error);
   }
 };
 
-export const getWinners = async (): Promise<Winner[]> => {
+//////
+
+export const fetchWinnersData = async (
+  updateWinners: (winners: Winner[]) => void
+) => {
   try {
-    const response: AxiosResponse<Winner[]> = await axios.get("/winners", {
-      baseURL: "http://127.0.0.1:3000",
-    });
-    return response.data;
+    const baseURL = "http://127.0.0.1:3000";
+    const winnersURL = `${baseURL}/winners`;
+
+    const response: AxiosResponse<Winner[]> = await axios.get(winnersURL);
+
+    if (response.status === 200) {
+      updateWinners(response.data);
+    } else {
+      console.error("Failed to fetch winners data:", response.data);
+    }
   } catch (error) {
-    throw error;
+    console.error("Error fetching winners data:", error);
   }
 };

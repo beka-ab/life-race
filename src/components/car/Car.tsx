@@ -1,5 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import { getCars, removeCar, startStopEngine } from "../helper/carsdata";
+import {
+  getCars,
+  removeCar,
+  startStopEngine,
+  switchToDriveMode,
+  fetchWinnersData,
+} from "../helper/carsdata";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./car.css";
 import Createcar from "../createcar/Createcar";
@@ -15,8 +21,15 @@ interface Car {
   id: number;
 }
 
+interface Winner {
+  id: number;
+  wins: number;
+  time: number;
+}
+
 const Cars: React.FC = () => {
   const [carlist, setCarlist] = useState<Car[]>([]);
+  const [winners, setWinners] = useState<Winner[]>([]);
   const [selectedcar, setSelectedCar] = useState<null | number>(null);
   const carIconRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
   const [time, setTime] = useState(null);
@@ -56,17 +69,29 @@ const Cars: React.FC = () => {
   ) => {
     if (carId && carIcon) {
       try {
-        const response = await startStopEngine(carId, "started");
+        const startEngineResponse = await startStopEngine(carId, "started");
 
-        const animationDuration = response.distance / response.velocity / 1000;
+        const engineResponse = await switchToDriveMode(carId);
+
+        const animationDuration =
+          startEngineResponse.distance / startEngineResponse.velocity / 1000;
 
         carIcon.style.transition = `left ${animationDuration}s ease-in-out`;
-        carIcon.style.left = `${response.distance / 1000}px`;
+        carIcon.style.left = `${startEngineResponse.distance / 1000}px`;
       } catch (error) {
         console.error("Error starting engine:", error);
       }
     }
   };
+
+  useEffect(() => {
+    const updateWinnersState = (winnersData: Winner[]) => {
+      setWinners(winnersData);
+    };
+
+    fetchWinnersData(updateWinnersState);
+    console.log(updateWinnersState);
+  }, []);
 
   const handleStopEngine = async (
     carId: number,
@@ -108,6 +133,7 @@ const Cars: React.FC = () => {
       <button onClick={handleStartRace}> start race</button>
 
       <h1> cars</h1>
+      <button> get winners</button>
       {currentCars.map((car) => {
         return (
           <div className="car-wrapper" key={car.id}>
