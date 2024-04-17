@@ -4,10 +4,10 @@ const Header = () => {
   return (
     <div className="header-container">
       <div className="btn-container">
-        <button className="header-btn"> Garage</button>
+        <button className="shadowed-btn"> Garage</button>
       </div>
       <div>
-        <button className="header-btn"> Winners </button>
+        <button className="shadowed-btn"> Winners </button>
       </div>
     </div>
   );

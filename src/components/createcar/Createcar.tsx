@@ -14,7 +14,7 @@ const Createcar: React.FC<CreateCarProps> = ({ onCarAdded }) => {
   const [pick, setPick] = useState(false);
   const [color, setColor] = useState("#00FF00");
 
-  const handlePostCar = async () => {
+  const handlePostCar = async (name: string, color: string) => {
     try {
       const car = await postCar({
         name: name,

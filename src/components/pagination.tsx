@@ -14,15 +14,13 @@ const Pagination: React.FC<paginationProps> = ({
     pageNumbers.push(i);
   }
   return (
-    <nav>
-      <ul>
+    <nav className="pagination-bar">
+      <ul className="pagination-list">
         {pageNumbers.map((number) => (
           <li key={number}>
             <a
               onClick={() => {
                 paginate(number);
-
-                console.log("pagination clikced");
               }}
               href="!#"
             >

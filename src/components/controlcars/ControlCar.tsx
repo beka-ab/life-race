@@ -2,7 +2,7 @@ interface controlCarprops {
   getCarIconElement: (carID: number) => HTMLDivElement | null;
   carID: number;
   handleControlEngine: (carID: number, carIcon: HTMLDivElement | null) => void;
-  btnname: string;
+  btnname: any;
 }
 
 const ControlCar: React.FC<controlCarprops> = ({
@@ -13,6 +13,7 @@ const ControlCar: React.FC<controlCarprops> = ({
 }) => {
   return (
     <button
+      className="car-btn"
       onClick={() => {
         const carIcon = getCarIconElement(carID);
         handleControlEngine(carID, carIcon);

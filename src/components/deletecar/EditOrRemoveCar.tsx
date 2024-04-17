@@ -2,7 +2,7 @@ import "./deletecar.css";
 interface editorremoveCarprops {
   handleRemove: (carID: number) => void;
   carID: number;
-  btnname: string;
+  btnname: any;
 }
 
 const EditOrRemoveCar: React.FC<editorremoveCarprops> = ({
@@ -12,6 +12,7 @@ const EditOrRemoveCar: React.FC<editorremoveCarprops> = ({
 }) => {
   return (
     <button
+      className="car-btn"
       onClick={() => {
         handleRemove(carID);
       }}

@@ -7,7 +7,7 @@ interface InputProps {
   pick: boolean;
   setColor: (color: string) => void;
   setPick: (pick: boolean) => void;
-  handlePostCar: () => void;
+  handlePostCar: (name: string, color: string) => Promise<void>;
   id?: null | number;
   btnname: string;
 }
@@ -62,7 +62,13 @@ const Input: React.FC<InputProps> = ({
         </div>
       </div>
 
-      <button onClick={handlePostCar}> {btnname}</button>
+      <button
+        className="shadowed-btn"
+        onClick={() => handlePostCar(name, color)}
+      >
+        {" "}
+        {btnname}
+      </button>
     </div>
   );
 };

@@ -3,7 +3,14 @@ import { getCars, removeCar, startStopEngine } from "../helper/carsdata";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./car.css";
 import Createcar from "../createcar/Createcar";
-import { faCarSide } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCarSide,
+  faPlay,
+  faTrash,
+  faHand,
+  faArrowPointer,
+} from "@fortawesome/free-solid-svg-icons";
+
 import Updatecar from "../updatecar/Updatecar";
 import ControlCar from "../controlcars/ControlCar";
 import EditOrRemoveCar from "../deletecar/EditOrRemoveCar";
@@ -23,11 +30,16 @@ const Cars: React.FC = () => {
     return carIconRefs.current[carId];
   };
   const [currentPage, setCurrentpage] = useState(1);
-  const [carPerPage, setCarPerpage] = useState(10);
+  const [carPerPage] = useState(7);
+
+  const paginate = (pageNumber: number) => {
+    setCurrentpage(pageNumber);
+    console.log(currentCars);
+  };
 
   const fetchCars = async () => {
     try {
-      const cars = await getCars(1, 100);
+      const cars = await getCars(1, 500);
 
       setCarlist(cars);
     } catch (error) {}
@@ -58,7 +70,7 @@ const Cars: React.FC = () => {
         console.log(carId);
         const animationDuration = response.distance / response.velocity / 1000;
         carIcon.style.transition = `left ${animationDuration}s ease-in-out`;
-        carIcon.style.left = `${response.distance / 1000}px`;
+        carIcon.style.left = `${response.distance / 6000}vw`;
       } catch (error) {
         console.error("Error starting engine:", error);
       }
@@ -72,8 +84,8 @@ const Cars: React.FC = () => {
     if (carId && carIcon) {
       try {
         const response = await startStopEngine(carId, "stopped");
-        carIcon.style.left = `${response.distance / 6250}px`;
-        console.log(response);
+        carIcon.style.left = `7vw`;
+        console.log(response.distance);
       } catch (error) {
         console.error("Error stopping engine:", error);
       }
@@ -98,40 +110,50 @@ const Cars: React.FC = () => {
     <div className="car-container">
       <Createcar onCarAdded={handleCarAdded} />
       <Updatecar selectedcar={selectedcar} onCarAdded={handleCarAdded} />
-      <button onClick={handleStartRace}> start race</button>
+      <button className="shadowed-btn" onClick={handleStartRace}>
+        start race
+      </button>
 
       <h1> cars</h1>
       {currentCars.map((car) => {
         return (
           <div className="car-wrapper" key={car.id}>
             <div className="car-btns">
-              <EditOrRemoveCar
-                handleRemove={setSelectedCar}
-                carID={car.id}
-                btnname="select car"
-              />
-              <EditOrRemoveCar
-                handleRemove={handleRemove}
-                carID={car.id}
-                btnname="Remove car"
-              />
-              <ControlCar
-                getCarIconElement={getCarIconElement}
-                handleControlEngine={handleStartEngine}
-                carID={car.id}
-                btnname="start engine"
-              />
-              <ControlCar
-                getCarIconElement={getCarIconElement}
-                handleControlEngine={handleStopEngine}
-                carID={car.id}
-                btnname="stop engine"
-              />
+              <div className="edit-remove">
+                <EditOrRemoveCar
+                  handleRemove={setSelectedCar}
+                  carID={car.id}
+                  btnname={
+                    <FontAwesomeIcon icon={faArrowPointer} color={car.color} />
+                  }
+                />
+                <EditOrRemoveCar
+                  handleRemove={handleRemove}
+                  carID={car.id}
+                  btnname={<FontAwesomeIcon icon={faTrash} color={car.color} />}
+                />
+              </div>
+              <div className="control-car">
+                {" "}
+                <ControlCar
+                  getCarIconElement={getCarIconElement}
+                  handleControlEngine={handleStartEngine}
+                  carID={car.id}
+                  btnname={<FontAwesomeIcon icon={faPlay} color={car.color} />}
+                />
+                <ControlCar
+                  getCarIconElement={getCarIconElement}
+                  handleControlEngine={handleStopEngine}
+                  carID={car.id}
+                  btnname={<FontAwesomeIcon icon={faHand} color={car.color} />}
+                />
+              </div>
             </div>
+
             <div
               className={`car-icon-container ${car.id}  `}
               ref={(element) => (carIconRefs.current[car.id] = element)}
-              style={{ left: `80px` }}
+              style={{ left: `7vw` }}
             >
               <FontAwesomeIcon
                 icon={faCarSide}
@@ -139,14 +161,19 @@ const Cars: React.FC = () => {
                 className="car-icon"
               />
             </div>
-            <div className="start-line">
-              <span className="start-text">start ////</span>
-            </div>
-            <span> {car.name}</span>
+
+            <span className="car-name" style={{ color: car.color }}>
+              {" "}
+              {car.name}
+            </span>
           </div>
         );
       })}
-      <Pagination carPerPage={carPerPage} totalCars={carlist.length} />
+      <Pagination
+        carPerPage={carPerPage}
+        totalCars={carlist.length}
+        paginate={paginate}
+      />
     </div>
   );
 };

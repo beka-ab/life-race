@@ -1,7 +1,6 @@
 .car-icon {
-  width: 50px;
-  height: 50px;
-  border-right: 1px solid white;
+  width: 10vw;
+  height: 70px;
 }
 .car-container {
   margin-top: 5vh;
@@ -9,18 +8,28 @@
 .car-btns {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  gap: 5px;
   justify-content: center;
+}
+.car-btn {
+  background-color: black;
+  cursor: pointer;
+}
+.control-car {
+  display: flex;
 }
 .car-wrapper {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   margin-top: 15px;
+  border-bottom: 1px dashed;
 }
 .start-line {
   border-right: 1px solid white;
   height: 50px;
+  padding-left: 75px;
 }
 .start-text {
   display: inline-block;
@@ -28,4 +37,27 @@
 }
 .car-icon-container {
   position: absolute;
+  z-index: 2;
+}
+.car-name {
+  position: absolute;
+  left: 17vw;
+}
+.pagination-list {
+  display: flex;
+  column-gap: 3vw;
+  list-style: none;
+  cursor: pointer;
+  color: aqua;
+  flex-wrap: wrap;
+}
+a {
+  text-decoration: unset;
+  color: aqua;
+}
+.pagination-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
 }
