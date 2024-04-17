@@ -1,3 +1,5 @@
+265 POINTs
+
 ## 🏁 Basic Structure (85 points)
 
 ### 1. View Configuration (30 points)

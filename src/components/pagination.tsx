@@ -13,17 +13,19 @@ const Pagination: React.FC<paginationProps> = ({
   for (let i = 1; i <= Math.ceil(totalCars / carPerPage); i++) {
     pageNumbers.push(i);
   }
+  const handleClick = (
+    pageNumber: number,
+    event: React.MouseEvent<HTMLAnchorElement>
+  ) => {
+    event.preventDefault();
+    paginate(pageNumber);
+  };
   return (
     <nav className="pagination-bar">
       <ul className="pagination-list">
         {pageNumbers.map((number) => (
           <li key={number}>
-            <a
-              onClick={() => {
-                paginate(number);
-              }}
-              href="!#"
-            >
+            <a href="!#" onClick={(e) => handleClick(number, e)}>
               {number}
             </a>
           </li>

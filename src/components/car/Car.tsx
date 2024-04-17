@@ -23,7 +23,7 @@ interface Car {
   id: number;
 }
 
-const Cars: React.FC = () => {
+const Garage: React.FC = () => {
   const [carlist, setCarlist] = useState<Car[]>([]);
   const [selectedcar, setSelectedCar] = useState<null | number>(null);
   const carIconRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
@@ -128,7 +128,8 @@ const Cars: React.FC = () => {
       <button className="shadowed-btn" onClick={resetCarPosition}>
         Reset Cars
       </button>
-      <h1> cars</h1>
+      <h1 className="cars-headline"> cars</h1>
+      <p className="cars-headline">Total Cars: {carlist.length}</p>
       {currentCars.map((car) => {
         return (
           <div className="car-wrapper" key={car.id}>
@@ -192,4 +193,4 @@ const Cars: React.FC = () => {
   );
 };
 
-export default Cars;
+export default Garage;

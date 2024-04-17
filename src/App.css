@@ -3,10 +3,14 @@
   padding: 0;
   box-sizing: border-box;
 }
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap");
 .App {
   background-image: url("./assets/bg1.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
+}
+body {
+  font-family: Oswald;
 }
