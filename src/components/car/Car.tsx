@@ -9,6 +9,7 @@ import {
   faTrash,
   faHand,
   faArrowPointer,
+  faRepeat,
 } from "@fortawesome/free-solid-svg-icons";
 
 import Updatecar from "../updatecar/Updatecar";
@@ -102,6 +103,14 @@ const Cars: React.FC = () => {
     await Promise.all(startPromises);
   };
 
+  const resetCarPosition = () => {
+    Object.values(carIconRefs.current).forEach((carIcon) => {
+      if (carIcon) {
+        carIcon.style.left = `7vw`;
+      }
+    });
+  };
+
   const indexOfLastCar = currentPage * carPerPage;
   const indexOfFirstCar = indexOfLastCar - carPerPage;
   const currentCars = carlist.slice(indexOfFirstCar, indexOfLastCar);
@@ -114,6 +123,9 @@ const Cars: React.FC = () => {
         start race
       </button>
 
+      <button className="shadowed-btn" onClick={resetCarPosition}>
+        Reset Cars
+      </button>
       <h1> cars</h1>
       {currentCars.map((car) => {
         return (
