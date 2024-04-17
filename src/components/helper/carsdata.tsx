@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-
+const baseURL = "http://127.0.0.1:3000";
 interface Car {
   name: string;
   color: string;
@@ -14,7 +14,7 @@ export interface EngineResponse {
 export const getCars = async (page?: number, limit?: number) => {
   try {
     const response: AxiosResponse<Car[]> = await axios.get("/garage", {
-      baseURL: "http://127.0.0.1:3000",
+      baseURL: `${baseURL}`,
       params: { _page: page, _limit: limit },
     });
     return response.data;
@@ -26,7 +26,7 @@ export const getCars = async (page?: number, limit?: number) => {
 export const postCar = async (carData: { name: string; color: string }) => {
   try {
     const response: AxiosResponse<Car> = await axios.post("/garage", carData, {
-      baseURL: "http://127.0.0.1:3000",
+      baseURL: `${baseURL}`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -47,7 +47,7 @@ export const updateCar = async (
       `/garage/${id}`,
       carData,
       {
-        baseURL: "http://127.0.0.1:3000",
+        baseURL: `${baseURL}`,
         headers: {
           "Content-Type": "application/json",
         },
@@ -62,7 +62,7 @@ export const updateCar = async (
 export const removeCar = async (id: number | null): Promise<Car> => {
   try {
     const response: AxiosResponse<Car> = await axios.delete(`/garage/${id}`, {
-      baseURL: "http://127.0.0.1:3000",
+      baseURL: `${baseURL}`,
     });
     return response.data;
   } catch (error) {
@@ -79,7 +79,7 @@ export const startStopEngine = async (
       "/engine",
       null,
       {
-        baseURL: "http://127.0.0.1:3000",
+        baseURL: `${baseURL}`,
         params: { id, status },
       }
     );
