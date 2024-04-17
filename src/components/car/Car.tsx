@@ -16,6 +16,7 @@ import Updatecar from "../updatecar/Updatecar";
 import ControlCar from "../controlcars/ControlCar";
 import EditOrRemoveCar from "../deletecar/EditOrRemoveCar";
 import Pagination from "../pagination";
+import Header from "../header/Header";
 interface Car {
   name: string;
   color: string;
@@ -117,6 +118,7 @@ const Cars: React.FC = () => {
 
   return (
     <div className="car-container">
+      <Header />
       <Createcar onCarAdded={handleCarAdded} />
       <Updatecar selectedcar={selectedcar} onCarAdded={handleCarAdded} />
       <button className="shadowed-btn" onClick={handleStartRace}>

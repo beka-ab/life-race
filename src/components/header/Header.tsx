@@ -1,13 +1,18 @@
+import { Link } from "react-router-dom";
 import "./header.css";
 
 const Header = () => {
   return (
     <div className="header-container">
       <div className="btn-container">
-        <button className="shadowed-btn"> Garage</button>
+        <Link to="/">
+          <button className="shadowed-btn"> Garage</button>
+        </Link>
       </div>
       <div>
-        <button className="shadowed-btn"> Winners </button>
+        <Link to="/winner">
+          <button className="shadowed-btn"> Winners </button>
+        </Link>
       </div>
     </div>
   );
