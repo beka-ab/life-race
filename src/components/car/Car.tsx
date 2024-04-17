@@ -1,11 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-  getCars,
-  removeCar,
-  startStopEngine,
-  switchToDriveMode,
-  fetchWinnersData,
-} from "../helper/carsdata";
+import { getCars, removeCar, startStopEngine } from "../helper/carsdata";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./car.css";
 import Createcar from "../createcar/Createcar";
@@ -14,36 +8,26 @@ import Updatecar from "../updatecar/Updatecar";
 import ControlCar from "../controlcars/ControlCar";
 import EditOrRemoveCar from "../deletecar/EditOrRemoveCar";
 import Pagination from "../pagination";
-
 interface Car {
   name: string;
   color: string;
   id: number;
 }
 
-interface Winner {
-  id: number;
-  wins: number;
-  time: number;
-}
-
 const Cars: React.FC = () => {
   const [carlist, setCarlist] = useState<Car[]>([]);
-  const [winners, setWinners] = useState<Winner[]>([]);
   const [selectedcar, setSelectedCar] = useState<null | number>(null);
   const carIconRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
-  const [time, setTime] = useState(null);
-  const [aniInfo, setAniInfo] = useState({});
   const [isRaceStarted, setIsRaceStarted] = useState(false);
   const getCarIconElement = (carId: number): HTMLDivElement | null => {
     return carIconRefs.current[carId];
   };
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentpage] = useState(1);
   const [carPerPage, setCarPerpage] = useState(10);
 
   const fetchCars = async () => {
     try {
-      const cars = await getCars();
+      const cars = await getCars(1, 100);
 
       setCarlist(cars);
     } catch (error) {}
@@ -69,29 +53,17 @@ const Cars: React.FC = () => {
   ) => {
     if (carId && carIcon) {
       try {
-        const startEngineResponse = await startStopEngine(carId, "started");
+        const response = await startStopEngine(carId, "started");
 
-        const engineResponse = await switchToDriveMode(carId);
-
-        const animationDuration =
-          startEngineResponse.distance / startEngineResponse.velocity / 1000;
-
+        console.log(carId);
+        const animationDuration = response.distance / response.velocity / 1000;
         carIcon.style.transition = `left ${animationDuration}s ease-in-out`;
-        carIcon.style.left = `${startEngineResponse.distance / 1000}px`;
+        carIcon.style.left = `${response.distance / 1000}px`;
       } catch (error) {
         console.error("Error starting engine:", error);
       }
     }
   };
-
-  useEffect(() => {
-    const updateWinnersState = (winnersData: Winner[]) => {
-      setWinners(winnersData);
-    };
-
-    fetchWinnersData(updateWinnersState);
-    console.log(updateWinnersState);
-  }, []);
 
   const handleStopEngine = async (
     carId: number,
@@ -101,17 +73,16 @@ const Cars: React.FC = () => {
       try {
         const response = await startStopEngine(carId, "stopped");
         carIcon.style.left = `${response.distance / 6250}px`;
+        console.log(response);
       } catch (error) {
         console.error("Error stopping engine:", error);
       }
     }
   };
-
   const handleStartRace = async () => {
     setIsRaceStarted(true);
     const startPromises = carlist.map(async (car) => {
       const carIcon = carIconRefs.current[car.id];
-
       if (carIcon) {
         return handleStartEngine(car.id, carIcon);
       }
@@ -122,9 +93,6 @@ const Cars: React.FC = () => {
   const indexOfLastCar = currentPage * carPerPage;
   const indexOfFirstCar = indexOfLastCar - carPerPage;
   const currentCars = carlist.slice(indexOfFirstCar, indexOfLastCar);
-  const paginate = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-  };
 
   return (
     <div className="car-container">
@@ -133,7 +101,6 @@ const Cars: React.FC = () => {
       <button onClick={handleStartRace}> start race</button>
 
       <h1> cars</h1>
-      <button> get winners</button>
       {currentCars.map((car) => {
         return (
           <div className="car-wrapper" key={car.id}>
@@ -179,12 +146,7 @@ const Cars: React.FC = () => {
           </div>
         );
       })}
-
-      <Pagination
-        carPerPage={carPerPage}
-        totalCars={carlist.length}
-        paginate={paginate}
-      />
+      <Pagination carPerPage={carPerPage} totalCars={carlist.length} />
     </div>
   );
 };
