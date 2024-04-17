@@ -1,4 +1,5 @@
 265 POINTs
+deploymant: https://life-race.vercel.app/
 
 ## 🏁 Basic Structure (85 points)
 
